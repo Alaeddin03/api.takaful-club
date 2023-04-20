@@ -114,6 +114,7 @@ if there is an error:
 
 
 -------------(8)-------------
+
 POST request
 /programs/{id}/register
 request body:
@@ -131,6 +132,7 @@ if there is an error:
 
 
 -------------(9)-------------
+
 POST request
 /driver/create
 request body:
@@ -145,9 +147,12 @@ if there is an error:
         error: errorMessage
     }
 
-delete is similar to create
-
 -------------(10)-------------
+
+delete is similar to create (9)
+
+-------------(11)-------------
+
 POST request
 /login
 request body:
@@ -162,7 +167,8 @@ return: JsonResponse:
 }
 
 
--------------(11)-------------
+-------------(12)-------------
+
 POST request
 /driver/{id}/students
 request body:
@@ -183,7 +189,7 @@ return: JsonResponse:
 
 
 
-## Objects of the models
+## Structure of objects mentioned above
 
 
 driverObject = {
