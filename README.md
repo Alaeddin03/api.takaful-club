@@ -26,6 +26,7 @@ GET request
 return: JsonResponse
 
 {
+
 	[
 		{programObject},
 		{programObject},
@@ -43,6 +44,7 @@ POST request
 request body:
 
 {
+
 	program: programObject
 }
 
@@ -50,9 +52,11 @@ return:
 if there is an error:
 	JsonResponse:
 
-	{
-		error: errorMessage
-	}
+	
+{
+
+    error: errorMessage
+}
 
 
 -------------(3)-------------
@@ -87,6 +91,7 @@ request body:
 return: JSON response
 
 {
+
     program: programObject,
     students: [
         studentObject,
@@ -104,6 +109,7 @@ GET request
 return: JSON response
 
 {
+
     program: programObject
 }
  
@@ -140,6 +146,7 @@ POST request
 request body:
 
 {
+
     programId: id,
     student: studentObject
 }
@@ -188,6 +195,7 @@ POST request
 request body:
 
 {
+
     username: username,
     password: password
 }
@@ -195,6 +203,7 @@ request body:
 return: JsonResponse:
 
 {
+
     role: role
 }
 
@@ -216,6 +225,7 @@ request body:
 return: JsonResponse:
 
 {
+
     program: programObject,
     students: [
         studentObject,
@@ -230,6 +240,7 @@ return: JsonResponse:
 
 
 driverObject = {
+
     id,
     name,
     phone,
@@ -239,6 +250,7 @@ driverObject = {
 }
 
 studentObject = {
+
     id,
     name,
     nationality,
@@ -249,6 +261,7 @@ studentObject = {
 }
 
 programObject = {
+
     id,
 	title,
 	description,
