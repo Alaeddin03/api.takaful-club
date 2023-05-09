@@ -3,7 +3,7 @@ const mysql = require('mysql');
 const connection = mysql.createConnection({
   host: 'localhost',
   user: 'root',
-  password: '',
+  password: 'Alaad003',
   database: 'takaful'
 });
 
@@ -43,22 +43,22 @@ const connection = mysql.createConnection({
 // });
 
 // ------- Programs -------------
-// connection.connect((err) => {
-//   if (err) throw err;
-//   console.log('Connected!');
-//   var sql = `CREATE TABLE programs (
-//     id INT AUTO_INCREMENT PRIMARY KEY,
-//     title VARCHAR(50) NOT NULL, 
-//     description TEXT, 
-//     dateTime DATETIME NOT NULL, 
-//     regestrationDateTime DATETIME NOT NULL, 
-//     limitOfParticipants INT, 
-//     image VARCHAR(255))`;
-//   connection.query(sql, (err, result) => {
-//     if (err) throw err;
-//     console.log("Table created");
-//   });
-// });
+connection.connect((err) => {
+  if (err) throw err;
+  console.log('Connected!');
+  var sql = `CREATE TABLE programs (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(50) NOT NULL, 
+    description TEXT, 
+    dateTime DATETIME NOT NULL, 
+    regestrationDateTime DATETIME NOT NULL, 
+    limitOfParticipants INT, 
+    image VARCHAR(255))`;
+  connection.query(sql, (err, result) => {
+    if (err) throw err;
+    console.log("Table created");
+  });
+});
 
 //  ------- Students -----------
 // connection.connect((err) => {

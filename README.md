@@ -1,3 +1,13 @@
+## To run:
+```
+npm run start
+```
+
+### reference link:
+
+https://blog.logrocket.com/build-rest-api-node-express-mysql/
+
+
 ## APIs to-do:
 
 - [ ] get all programs

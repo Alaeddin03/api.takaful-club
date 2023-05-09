@@ -4,12 +4,15 @@
   "description": "- [ ] get all programs - [ ] create program - [ ] edit .. - [ ] delete .. - [ ] get student in a program - [ ] get a program by id - [ ] assign driver to program and neighborhood - [ ] student register in a program - [ ] create a driver account - [ ] delete .. - [ ] login - [ ] get driver's list of students",
   "main": "index.js",
   "scripts": {
+    "start": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "express": "^4.18.2",
-    "mysql": "^2.18.1"
+    "mysql": "^2.18.1",
+    "mysql2": "^3.3.0",
+    "nodemon": "^2.0.22"
   }
 }
