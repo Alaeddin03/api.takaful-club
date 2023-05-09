@@ -245,6 +245,7 @@ driverObject = {
     name,
     phone,
     busNumber,
+    neighborhood,
     username,
     password
 }
@@ -257,6 +258,7 @@ studentObject = {
     phone,
     age,
     neighborhood,
+    programIDs,
     notes
 }
 
