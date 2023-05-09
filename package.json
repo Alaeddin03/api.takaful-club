@@ -1,0 +1,14 @@
+{
+  "name": "api.project.web",
+  "version": "4.18.2",
+  "description": "- [ ] get all programs - [ ] create program - [ ] edit .. - [ ] delete .. - [ ] get student in a program - [ ] get a program by id - [ ] assign driver to program and neighborhood - [ ] student register in a program - [ ] create a driver account - [ ] delete .. - [ ] login - [ ] get driver's list of students",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
