@@ -10,7 +10,7 @@ https://blog.logrocket.com/build-rest-api-node-express-mysql/
 
 ## APIs to-do:
 
-- [ ] get all programs
+- [x] get all programs
 - [ ] create program
 - [ ] edit ..
 - [ ] delete ..
