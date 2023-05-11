@@ -1,7 +1,7 @@
 const db = require('./db');
 const helper = require('../helper');
 
-async function getPrograms(){
+async function getPrograms() {
   const rows = await db.query(
     `SELECT id, title, description, dateTime, regestrationDateTime, limitOfParticipants, image 
     FROM programs`
@@ -13,8 +13,24 @@ async function getPrograms(){
   }
 }
 
+
+// getCurrentPrograms
+
+
+async function getProgramById(id) {
+  const rows = await db.query(
+    `SELECT id, title, description, dateTime, regestrationDateTime, limitOfParticipants, image
+    FROM programs
+    WHERE id = ${id}`
+  );
+  const programs = helper.emptyOrRows(rows);
+  return {
+    programs
+  };
+}
+
 async function createProgram(program) {
-  const result  = await db.query(
+  const result = await db.query(
     `INSERT INTO programs (title, description, dateTime, regestrationDateTime, limitOfParticipants, image ) 
     VALUES (?, ?, ?, ?, ?, ? )`,
     [
@@ -36,12 +52,22 @@ async function createProgram(program) {
   return { message };
 }
 
-async function editPrograms(id, programs){
+
+async function editProgram(id, program) {
+
+  let setString = '';
+  let values = [];
+  for (let key in program) {
+    setString += `${key} = ?, `;
+    values.push(program[key]);
+  }
+  setString = setString.slice(0, -2);
+
   const result = await db.query(
     `UPDATE programs 
-    SET id="${programs.id}", title=${programs.title}, description=${programs.description}, 
-    dateTime=${programs.dateTime}, regestrationDateTime=${programs.regestrationDateTime}, limitOfParticipants=${programs.limitOfParticipants}, image=${programs.image} 
-    WHERE id=${id}` 
+    SET ${setString} 
+    WHERE id=${id}`,
+    [...values]
   );
 
   let message = 'Error in updating programs';
@@ -50,13 +76,30 @@ async function editPrograms(id, programs){
     message = 'Programs updated successfully';
   }
 
-  return {message};
+  return { message };
+}
+
+
+async function deleteProgram(id) {
+  const result = await db.query(
+    `DELETE FROM programs WHERE id=${id}`
+  );
+
+  let message = 'Error in deleting program';
+
+  if (result.affectedRows) {
+    message = 'Programs deleted successfully';
+  }
+
+  return { message };
 }
 
 
 module.exports = {
-    getPrograms,
-    createProgram,
-    getPrograms,editPrograms
-
+  getPrograms,
+  // getCurrentPrograms,
+  getProgramById,
+  createProgram,
+  editProgram,
+  deleteProgram
 }

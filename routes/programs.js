@@ -2,18 +2,38 @@ const express = require('express');
 const router = express.Router();
 const programs = require('../services/programs');
 
+
 /* GET all programs. */
-router.get('/', async function(req, res, next) {
+router.get('/', async function (req, res, next) {
   try {
-    res.json(await programs.getPrograms(req.query));
+    data = await programs.getPrograms(req.query);
+    console.log(data);
+    res.json(data);
   } catch (err) {
-    console.error(`Error while getting programming languages `, err.message);
+    console.error(`Error while getting all programs `, err.message);
     next(err);
   }
 });
 
-/* POST new program. */
-router.post('/', async function(req, res, next) {
+
+// GET current programs
+// where regestrationDateTime > now()
+
+
+// GET a program by id
+router.get('/:id', async (req, res, next) => {
+  try {
+    res.json(await programs.getProgramById(req.params.id));
+  } catch (err) {
+    console.error(`Error while getting program `, err.message);
+    next(err);
+  };
+}
+);
+
+
+// POST (create) program
+router.post('/', async function (req, res, next) {
   try {
     console.log(req.body);
     res.json(await programs.createProgram(req.body.program));
@@ -23,14 +43,27 @@ router.post('/', async function(req, res, next) {
   }
 });
 
-/* PUT programming language */
-router.put('/:id', async function(req, res, next) {
+
+// PUT (edit) program
+router.put('/:id', async function (req, res, next) {
   try {
-    res.json(await programs.editPrograms(req.params.id, req.body));
+    res.json(await programs.editProgram(req.params.id, req.body.program));
   } catch (err) {
-    console.error(`Error while updating programming language`, err.message);
+    console.error(`Error while updating program`, err.message);
     next(err);
   }
 });
+
+
+// DELETE program
+router.delete('/:id', async function (req, res, next) {
+  try {
+    res.json(await programs.deleteProgram(req.params.id));
+  } catch (err) {
+    console.error(`Error while deletinging program`, err.message);
+    next(err);
+  }
+});
+
 
 module.exports = router;

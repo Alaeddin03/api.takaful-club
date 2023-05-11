@@ -1,10 +1,21 @@
-const config = {
-    db: {
-      host: "localhost",
-      user: "root",
-      password: "Alaad003",
-      database: "takaful",
-    }
-  };
+const helper = require('./helper');
 
-  module.exports = config;
+
+const dbConfig = {
+  db: {
+    host: "localhost",
+    user: "root",
+    password: "Alaad003",
+    database: "takaful",
+  }
+};
+
+const admin = {
+  username: "admin",
+  password: helper.hashPassword("password"),
+}
+
+module.exports = {
+  dbConfig,
+  admin
+}
