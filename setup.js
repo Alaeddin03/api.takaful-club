@@ -24,26 +24,26 @@ const connection = mysql.createConnection({
 // create table //
 //////////////////
 // ------- Drivers ----------
-connection.connect((err) => {
-  if (err) throw err;
-  console.log('Connected!');
-  var sql = `CREATE TABLE drivers (
-  id INT NOT NULL AUTO_INCREMENT,
-  name VARCHAR(50) NOT NULL,
-  phone VARCHAR(10) NOT NULL,
-  busNumber VARCHAR(5) NOT NULL,
-  busLimit INT NOT NULL,
-  neighborhoodId INT,
-  username VARCHAR(20) NOT NULL,
-  password VARCHAR(72) NOT NULL,
-  PRIMARY KEY (id),
-  CONSTRAINT driver_neighborhood_FK FOREIGN KEY (neighborhoodId) REFERENCES neighborhood(id) 
-  )`;
-  connection.query(sql, (err, result) => {
-    if (err) throw err;
-    console.log("Table created");
-  });
-});
+// connection.connect((err) => {
+//   if (err) throw err;
+//   console.log('Connected!');
+//   var sql = `CREATE TABLE drivers (
+//   id INT NOT NULL AUTO_INCREMENT,
+//   name VARCHAR(50) NOT NULL,
+//   phone VARCHAR(10) NOT NULL,
+//   busNumber VARCHAR(5) NOT NULL,
+//   busLimit INT NOT NULL,
+//   neighborhoodId INT,
+//   username VARCHAR(20) NOT NULL,
+//   password VARCHAR(72) NOT NULL,
+//   PRIMARY KEY (id),
+//   CONSTRAINT driver_neighborhood_FK FOREIGN KEY (neighborhoodId) REFERENCES neighborhood(id) 
+//   )`;
+//   connection.query(sql, (err, result) => {
+//     if (err) throw err;
+//     console.log("Table created");
+//   });
+// });
 
 // ------- Programs -------------
 // connection.connect((err) => {
@@ -85,21 +85,25 @@ connection.connect((err) => {
 // });
 
 //  ------- ProgramsStudents -----------
-// connection.connect((err) => {
-//   if (err) throw err;
-//   console.log('Connected!');
-//   var sql = `CREATE TABLE programsStudents (
-//   programId INT,
-//   studentId INT,
-//   CONSTRAINT student_fk FOREIGN KEY (programId) REFERENCES programs(id),
-//   CONSTRAINT program_fk FOREIGN KEY (studentId) REFERENCES students(id),
-//   CONSTRAINT program_student_pk PRIMARY KEY (programId, studentId)
-//    )`;
-//   connection.query(sql, (err, result) => {
-//     if (err) throw err;
-//     console.log("Table created");
-//   });
-// });
+connection.connect((err) => {
+  if (err) throw err;
+  console.log('Connected!');
+  var sql = `CREATE TABLE programsStudents (
+  programId INT,
+  studentId INT,
+  neighborhoodId INT,
+  driverId INT,
+  CONSTRAINT student_fk FOREIGN KEY (programId) REFERENCES programs(id),
+  CONSTRAINT program_fk FOREIGN KEY (studentId) REFERENCES students(id),
+  CONSTRAINT neighborhood_fk FOREIGN KEY ( neighborhoodId) REFERENCES  neighborhood(id),
+  CONSTRAINT driver_fk FOREIGN KEY (driverId) REFERENCES driver(id),
+  CONSTRAINT program_student_pk PRIMARY KEY (programId, studentId)
+   )`;
+  connection.query(sql, (err, result) => {
+    if (err) throw err;
+    console.log("Table created");
+  });
+});
 
 //  ------- Neighborhood -----------
 // connection.connect((err) => {
