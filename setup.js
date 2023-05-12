@@ -28,16 +28,14 @@ connection.connect((err) => {
   if (err) throw err;
   console.log('Connected!');
   var sql = `CREATE TABLE drivers (
-  id INT NOT NULL AUTO_INCREMENT,
+  id INT  AUTO_INCREMENT PRIMARY KEY,
   name VARCHAR(50) NOT NULL,
   phone VARCHAR(10) NOT NULL,
   busNumber VARCHAR(5) NOT NULL,
   busLimit INT NOT NULL,
-  neighborhoodId INT,
   username VARCHAR(20) NOT NULL,
   password VARCHAR(72) NOT NULL,
-  PRIMARY KEY (id),
-  CONSTRAINT driver_neighborhood_FK FOREIGN KEY (neighborhoodId) REFERENCES neighborhood(id) 
+  PRIMARY KEY (id)
   )`;
   connection.query(sql, (err, result) => {
     if (err) throw err;
@@ -73,10 +71,8 @@ connection.connect((err) => {
 //   phone VARCHAR(10) NOT NULL,
 //   age INT NOT NULL,
 //   nationality VARCHAR(20) NOT NULL,
-//   neighborhoodId INT,
-//   isAssigned VARCHAR(5) DEFAULT 'false',
-//   notes TEXT,
-//   CONSTRAINT student_neighborhood_FK FOREIGN KEY (neighborhoodId) REFERENCES neighborhood(id)
+//   gender VARCHAR(6) NOT NULL,
+//   notes TEXT
 //    )`;
 //   connection.query(sql, (err, result) => {
 //     if (err) throw err;
@@ -84,6 +80,23 @@ connection.connect((err) => {
 //   });
 // });
 
+
+//  ------- Neighborhood -----------
+// connection.connect((err) => {
+//   if (err) throw err;
+//   console.log('Connected!');
+//   var sql = `CREATE TABLE neighborhood (
+  //   id INT PRIMARY KEY,
+  //   name VARCHAR(50) NOT NULL,
+  //   sequence INT NOT NULL
+  //    )`;
+  //   connection.query(sql, (err, result) => {
+    //     if (err) throw err;
+    //     console.log("Table created");
+    //   });
+    // });
+      
+      
 //  ------- ProgramsStudents -----------
 // connection.connect((err) => {
 //   if (err) throw err;
@@ -100,20 +113,4 @@ connection.connect((err) => {
 //     console.log("Table created");
 //   });
 // });
-
-//  ------- Neighborhood -----------
-// connection.connect((err) => {
-//   if (err) throw err;
-//   console.log('Connected!');
-//   var sql = `CREATE TABLE neighborhood (
-//   id INT PRIMARY KEY,
-//   name VARCHAR(50) NOT NULL,
-//   sequence INT NOT NULL
-//    )`;
-//   connection.query(sql, (err, result) => {
-//     if (err) throw err;
-//     console.log("Table created");
-//   });
-// });
-
-
+      
