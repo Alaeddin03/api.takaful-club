@@ -123,7 +123,7 @@ connection.connect((err) => {
   CONSTRAINT student_fk FOREIGN KEY (programId) REFERENCES programs(id),
   CONSTRAINT program_fk FOREIGN KEY (studentId) REFERENCES students(id),
   CONSTRAINT neighborhood_fk FOREIGN KEY (neighborhoodId) REFERENCES neighborhood(id),
-  CONSTRAINT driver_fk FOREIGN KEY (driverId) REFERENCES driver(id),
+  CONSTRAINT driver_fk FOREIGN KEY (driverId) REFERENCES drivers(id),
   CONSTRAINT program_student_pk PRIMARY KEY (programId, studentId)
    )`;
   connection.query(sql, (err, result) => {
