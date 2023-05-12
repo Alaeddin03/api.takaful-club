@@ -19,7 +19,7 @@ async function getPrograms() {
 
 async function getProgramById(id) {
   const rows = await db.query(
-    `SELECT id, title, description, dateTime, regestrationDateTime, limitOfParticipants, image
+    `SELECT id, title, description, dateTime, registrationDateTime, limitOfParticipants, image
     FROM programs
     WHERE id = ${id}`
   );
@@ -31,13 +31,13 @@ async function getProgramById(id) {
 
 async function createProgram(program) {
   const result = await db.query(
-    `INSERT INTO programs (title, description, dateTime, regestrationDateTime, limitOfParticipants, image ) 
+    `INSERT INTO programs (title, description, dateTime, registrationDateTime, limitOfParticipants, image ) 
     VALUES (?, ?, ?, ?, ?, ? )`,
     [
       program.title,
       program.description,
       program.dateTime,
-      program.regestrationDateTime,
+      program.registrationDateTime,
       program.limitOfParticipants,
       program.image
     ]

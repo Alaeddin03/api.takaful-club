@@ -54,7 +54,7 @@ connection.connect((err) => {
 //     title VARCHAR(50) NOT NULL, 
 //     description TEXT, 
 //     dateTime DATETIME NOT NULL, 
-//     regestrationDateTime DATETIME NOT NULL, 
+//     registrationDateTime DATETIME NOT NULL, 
 //     limitOfParticipants INT, 
 //     image VARCHAR(255) DEFAULT 'logo.svg')`;
 //   connection.query(sql, (err, result) => {
