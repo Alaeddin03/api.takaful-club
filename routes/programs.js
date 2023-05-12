@@ -7,7 +7,6 @@ const programs = require('../services/programs');
 router.get('/', async function (req, res, next) {
   try {
     data = await programs.getPrograms(req.query);
-    console.log(data);
     res.json(data);
   } catch (err) {
     console.error(`Error while getting all programs `, err.message);
