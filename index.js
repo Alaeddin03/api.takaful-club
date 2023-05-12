@@ -1,10 +1,19 @@
 const express = require("express");
+const  cors = require('cors');
 const fileUpload = require('express-fileupload');
 const app = express();
 const port = 8000;
 const programsRouter = require("./routes/programs");
 const driversRouter = require("./routes/drivers");
 const loginRouter = require("./routes/login");
+
+
+var corsOptions = {
+  origin: '*',
+  optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+}
+
+app.use(cors(corsOptions));
 
 app.use(express.json());
 app.use(
