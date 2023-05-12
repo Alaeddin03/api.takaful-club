@@ -43,6 +43,7 @@ connection.connect((err) => {
   });
 });
 
+
 // ------- Programs -------------
 // connection.connect((err) => {
 //   if (err) throw err;
@@ -98,19 +99,38 @@ connection.connect((err) => {
       
       
 //  ------- ProgramsStudents -----------
+connection.connect((err) => {
+  if (err) throw err;
+  console.log('Connected!');
+  var sql = `CREATE TABLE programsStudents (
+  programId INT,
+  studentId INT,
+  neighborhoodId INT,
+  driverId INT,
+  CONSTRAINT student_fk FOREIGN KEY (programId) REFERENCES programs(id),
+  CONSTRAINT program_fk FOREIGN KEY (studentId) REFERENCES students(id),
+  CONSTRAINT neighborhood_fk FOREIGN KEY ( neighborhoodId) REFERENCES  neighborhood(id),
+  CONSTRAINT driver_fk FOREIGN KEY (driverId) REFERENCES driver(id),
+  CONSTRAINT program_student_pk PRIMARY KEY (programId, studentId)
+   )`;
+  connection.query(sql, (err, result) => {
+    if (err) throw err;
+    console.log("Table created");
+  });
+});
+
+//  ------- Neighborhood -----------
 // connection.connect((err) => {
 //   if (err) throw err;
 //   console.log('Connected!');
-//   var sql = `CREATE TABLE programsStudents (
-//   programId INT,
-//   studentId INT,
-//   CONSTRAINT student_fk FOREIGN KEY (programId) REFERENCES programs(id),
-//   CONSTRAINT program_fk FOREIGN KEY (studentId) REFERENCES students(id),
-//   CONSTRAINT program_student_pk PRIMARY KEY (programId, studentId)
+//   var sql = `CREATE TABLE neighborhood (
+//   id INT PRIMARY KEY,
+//   name VARCHAR(50) NOT NULL,
+//   sequence INT NOT NULL
 //    )`;
 //   connection.query(sql, (err, result) => {
 //     if (err) throw err;
 //     console.log("Table created");
 //   });
 // });
-      
+
