@@ -50,7 +50,7 @@ router.delete('/:id', async function (req, res, next) {
 
 
 router.post(':id/assign', async function (req, res, next) {
-    
+
     let driver = []
     try {
         driver = await drivers.getDrivers(`id = ${req.params.id}`)
@@ -71,14 +71,14 @@ router.post(':id/assign', async function (req, res, next) {
     const maleStudents = []
     const femaleStudents = []
 
-    students.forEach( async student => {
-        try{
+    students.forEach(async student => {
+        try {
             const maleStudent = await students.getStudents(`gender = 'male AND id = ${student.student}`)
             maleStudents.push(maleStudent)
         } catch (err) {
             console.error('Error while getting male students', err.message)
         }
-        try{
+        try {
             const femaleStudent = await students.getStudents(`gender = 'female AND id = ${student.student}`)
             femaleStudents.push(femaleStudent)
         } catch (err) {
@@ -103,7 +103,7 @@ router.post(':id/assign', async function (req, res, next) {
         }
     }
 
-    studentsToAssign.forEach( async student => {
+    studentsToAssign.forEach(async student => {
         try {
             await programsStudents.editDriverForProgramsStudent(req.body.programId, student.id, req.params.id)
         } catch (err) {
@@ -111,35 +111,35 @@ router.post(':id/assign', async function (req, res, next) {
         }
     })
 
-    res.json({message: 'Students assigned successfully'})
-        
+    res.json({ message: 'Students assigned successfully' })
+
 });
 
 
 // get students for a driver
 router.post('/:id/students', async function (req, res, next) {
 
-    let students = []
+    let driverStudents = []
     try {
-      students = (await programsStudents.getProgramsStudents(`driverId = ${req.params.id}`));
-      console.log('students', students)
+        driverStudents = (await programsStudents.getProgramsStudents(`driverId = ${req.params.id}`));
+        console.log('students', driverStudents)
     } catch (err) {
-      console.error(`Error while getting students for a driver`, err.message);
-      next(err);
-    }
-  
-    let studentData = []
-    students.forEach(async (student) => {
-      try {
-        studentData.push(await students.getStudentById(student.studentId))
-      } catch (err) {
-        console.error(`Error while getting student`, err.message);
+        console.error(`Error while getting students for a driver`, err.message);
         next(err);
-      }
+    }
+
+    let studentData = []
+    driverStudents.forEach(async (student) => {
+        try {
+            studentData.push(await students.getStudentById(student.studentId))
+        } catch (err) {
+            console.error(`Error while getting student`, err.message);
+            next(err);
+        }
     })
-  
+
     res.json(studentData)
-  
-  });
+
+});
 
 module.exports = router;
