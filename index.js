@@ -6,6 +6,7 @@ const port = 8000;
 const programsRouter = require("./routes/programs");
 const driversRouter = require("./routes/drivers");
 const loginRouter = require("./routes/login");
+const neighborhoodRouter = require("./routes/neighborhood");
 
 
 var corsOptions = {
@@ -31,6 +32,7 @@ app.get("/", (req, res) => {
 app.use("/programs", programsRouter);
 app.use("/drivers", driversRouter);
 app.use("/login", loginRouter);
+app.use("/neighborhood", neighborhoodRouter);
 
 
 // serving static files
@@ -41,8 +43,6 @@ app.use(express.static('files'));
 app.use('/static', express.static('public'));
 
 app.post('/upload', (req, res) => {
-
-  console.log(req);
 
   if (!req.files) {
     return res.status(400).send('No files were uploaded.');

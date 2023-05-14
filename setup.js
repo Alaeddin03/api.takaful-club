@@ -3,7 +3,7 @@ const mysql = require('mysql');
 const connection = mysql.createConnection({
   host: 'localhost',
   user: 'root',
-  password: 'Alaad003',
+  password: '',
   database: 'takaful'
 });
 
@@ -34,7 +34,7 @@ const connection = mysql.createConnection({
 //   busNumber VARCHAR(5) NOT NULL,
 //   busLimit INT NOT NULL,
 //   username VARCHAR(20) NOT NULL,
-//   password VARCHAR(72) NOT NULL,
+//   password VARCHAR(72) NOT NULL
 //   )`;
 //   connection.query(sql, (err, result) => {
 //     if (err) throw err;
@@ -66,7 +66,7 @@ const connection = mysql.createConnection({
 //   if (err) throw err;
 //   console.log('Connected!');
 //   var sql = `CREATE TABLE students (
-//   id INT PRIMARY KEY,
+//   id VARCHAR(10) PRIMARY KEY,
 //   name VARCHAR(50) NOT NULL,
 //   phone VARCHAR(10) NOT NULL,
 //   age INT NOT NULL,
@@ -96,40 +96,26 @@ const connection = mysql.createConnection({
 //   });
 // });
 
-//  ------- Neighborhood -----------
+
+//  ------- ProgramsStudents -----------
 // connection.connect((err) => {
 //   if (err) throw err;
 //   console.log('Connected!');
-//   var sql = `CREATE TABLE neighborhood (
-//   id INT PRIMARY KEY,
-//   name VARCHAR(50) NOT NULL,
-//   sequence INT NOT NULL
+//   var sql = `CREATE TABLE programsStudents (
+//   programId INT,
+//   studentId VARCHAR(10),
+//   neighborhoodId INT,
+//   driverId INT,
+//   CONSTRAINT student_fk FOREIGN KEY (programId) REFERENCES programs(id),
+//   CONSTRAINT program_fk FOREIGN KEY (studentId) REFERENCES students(id),
+//   CONSTRAINT neighborhood_fk FOREIGN KEY (neighborhoodId) REFERENCES neighborhood(id),
+//   CONSTRAINT driver_fk FOREIGN KEY (driverId) REFERENCES drivers(id),
+//   CONSTRAINT program_student_pk PRIMARY KEY (programId, studentId)
 //    )`;
 //   connection.query(sql, (err, result) => {
 //     if (err) throw err;
 //     console.log("Table created");
 //   });
 // });
-
-//  ------- ProgramsStudents -----------
-connection.connect((err) => {
-  if (err) throw err;
-  console.log('Connected!');
-  var sql = `CREATE TABLE programsStudents (
-  programId INT,
-  studentId INT,
-  neighborhoodId INT,
-  driverId INT,
-  CONSTRAINT student_fk FOREIGN KEY (programId) REFERENCES programs(id),
-  CONSTRAINT program_fk FOREIGN KEY (studentId) REFERENCES students(id),
-  CONSTRAINT neighborhood_fk FOREIGN KEY (neighborhoodId) REFERENCES neighborhood(id),
-  CONSTRAINT driver_fk FOREIGN KEY (driverId) REFERENCES drivers(id),
-  CONSTRAINT program_student_pk PRIMARY KEY (programId, studentId)
-   )`;
-  connection.query(sql, (err, result) => {
-    if (err) throw err;
-    console.log("Table created");
-  });
-});
 
 

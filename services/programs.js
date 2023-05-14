@@ -3,7 +3,7 @@ const helper = require('../helper');
 
 async function getPrograms() {
   const rows = await db.query(
-    `SELECT id, title, description, dateTime, regestrationDateTime, limitOfParticipants, image 
+    `SELECT id, title, description, dateTime, registrationDateTime, limitOfParticipants, image 
     FROM programs`
   );
   const programs = helper.emptyOrRows(rows);
@@ -14,7 +14,21 @@ async function getPrograms() {
 }
 
 
-// getCurrentPrograms
+async function getCurrentPrograms() {
+  // Get the current date/time in ISO format
+  const currentDate = new Date().toISOString();
+  const rows = await db.query(
+    `SELECT id, title, description, dateTime, registrationDateTime, limitOfParticipants, image
+      FROM programs
+      WHERE registrationDateTime >= '${currentDate}'
+      ORDER BY registrationDateTime ASC
+      `
+  );
+  const programs = helper.emptyOrRows(rows);
+  return {
+    programs
+  };
+}
 
 
 async function getProgramById(id) {
@@ -23,23 +37,30 @@ async function getProgramById(id) {
     FROM programs
     WHERE id = ${id}`
   );
-  const programs = helper.emptyOrRows(rows);
+  const program = helper.emptyOrRows(rows);
   return {
-    programs
+    program
   };
 }
 
 async function createProgram(program) {
+
+  let columnString = '';
+  let valueString = '';
+  let values = [];
+  for (let key in program) {
+    columnString += `${key}, `;
+    valueString += `?, `;
+    values.push(program[key]);
+  }
+  columnString = columnString.slice(0, -2);
+  valueString = valueString.slice(0, -2);
+
   const result = await db.query(
-    `INSERT INTO programs (title, description, dateTime, registrationDateTime, limitOfParticipants, image ) 
-    VALUES (?, ?, ?, ?, ?, ? )`,
+    `INSERT INTO programs (${columnString}) 
+    VALUES (${valueString})`,
     [
-      program.title,
-      program.description,
-      program.dateTime,
-      program.registrationDateTime,
-      program.limitOfParticipants,
-      program.image
+      ...values
     ]
   );
 
@@ -81,6 +102,7 @@ async function editProgram(id, program) {
 
 
 async function deleteProgram(id) {
+
   const result = await db.query(
     `DELETE FROM programs WHERE id=${id}`
   );
@@ -95,11 +117,43 @@ async function deleteProgram(id) {
 }
 
 
+
+// getStudentsInProgram (not complet)
+// async function getStudentsInProgram(id) {
+//   const rows = await db.query(
+//     `SELECT studentId
+//     FROM programsStudents
+//     WHERE programId = ${id}`
+//   );
+
+//   const studentsInProgram = helper.emptyOrRows(rows);
+
+//   // const returnedStudents = [];
+
+//   // students.forEach(
+//   //   async (student) => {
+//   //     const studentRows = await db.query(
+//   //       `SELECT id, name, phone, age, nationality, gender, notes
+//   //       FROM students
+//   //       WHERE id = ${student.studentId}`
+//   //     );
+//   //     const studentRow = helper.emptyOrRows(studentRows);
+//   //     returnedStudents.push(studentRow);
+//   //   }
+//   // )
+
+//   return {
+//     studentsInProgram
+//   };
+// }
+
+
 module.exports = {
   getPrograms,
-  // getCurrentPrograms,
+  getCurrentPrograms,
   getProgramById,
   createProgram,
   editProgram,
   deleteProgram
+  // getStudentsInProgram,
 }

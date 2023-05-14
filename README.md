@@ -11,17 +11,17 @@ https://blog.logrocket.com/build-rest-api-node-express-mysql/
 ## APIs to-do:
 
 - [x] get all programs
-- [ ] get current programs
+- [x] get current programs
 - [x] get a program by id
 - [x] create program
 - [x] edit ..
 - [x] delete ..
 - [ ] get student in a program
 - [ ] assign driver to program and neighborhood
-- [ ] student register in a program
-- [ ] get all neighborhoods
-- [ ] create neighborhood
-- [ ] delete neighborhood
+- [x] student register in a program
+- [x] get all neighborhoods
+- [x] create neighborhood
+- [x] delete neighborhood
 - [x] get all driver accounts
 - [x] create a driver account
 - [x] update ..

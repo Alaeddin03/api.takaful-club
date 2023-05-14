@@ -10,9 +10,10 @@ const dbConfig = {
   }
 };
 
+
 const admin = {
   username: "admin",
-  password: helper.hashPassword("password"),
+  password: '$2a$12$vqnbr01VZbj.NqjlUYCihukN9XJPv512WrIqm0DqKJCiL7zpjVMBO',
 }
 
 module.exports = {

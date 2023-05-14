@@ -14,12 +14,18 @@ async function hashPassword(password) {
 }
 
 async function comparePassword(password, hashedPassword) {
+    console.log(password, hashedPassword)
     const match = await bcrypt.compare(password, hashedPassword);
     return match;
+}
+
+function isAuthorized(currentRole, authorizedRoles) {
+    return authorizedRoles.includes(currentRole);
 }
 
 module.exports = {
     emptyOrRows,
     hashPassword,
-    comparePassword
+    comparePassword,
+    isAuthorized
 }
