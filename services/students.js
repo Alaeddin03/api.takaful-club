@@ -1,14 +1,15 @@
 const db = require('./db');
 const helper = require('../helper');
 
-async function getStudents(condition) {
+async function getStudents({condition}) {
     const whereString = condition ? `WHERE ${condition}` : '';
     const rows = await db.query(
-        `SELECT id, name, phone, age, nationality, gender, notes
+        `SELECT *
         FROM students
         ${whereString}`
     );
     const students = helper.emptyOrRows(rows);
+    console.log('students', students)
     return {
         students
     }

@@ -65,9 +65,9 @@ async function createProgramsStudent(programId, studentId, neighborhoodId) {
 async function editDriverForProgramsStudent(programId, studentId, driverId) {
 
     const result = await db.query(
-        `UPDATE programsStudent 
-    SET driverId = IFNULL(driverId, ${driverId})
-    WHERE programId=${programId}, studentId=${studentId};`
+        `UPDATE programsStudents 
+        SET driverId = IFNULL(driverId, ${driverId})
+        WHERE programId = ${programId} AND studentId = '${studentId}';`
     );
 
     let message = 'Error in editing driver in programsStudents';
@@ -81,13 +81,17 @@ async function editDriverForProgramsStudent(programId, studentId, driverId) {
 
 
 async function getProgramsStudentByNeighborhood(programId, neighborhoodId) {
+
     const rows = await db.query(
         `SELECT studentId
         FROM programsStudents
-        WHERE programId = ${programId} AND neighborhoodId = ${neighborhoodId}`
+        WHERE programId = ${programId} AND neighborhoodId = ${neighborhoodId} AND driverId IS NULL`
     );
 
+    console.log('rows', rows)
+
     const students = helper.emptyOrRows(rows);
+    
     return {
         students
     };

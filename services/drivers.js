@@ -2,8 +2,10 @@ const db = require('./db');
 const helper = require('../helper');
 
 
-async function getDrivers(condition) {
+async function getDrivers({condition}) {
+    console.log('condition', condition)
     const whereString = condition ? `WHERE ${condition}` : '';
+    console.log('whereString', whereString)
     const rows = await db.query(
         `SELECT id, name, phone, busNumber, busLimit, username 
         FROM drivers

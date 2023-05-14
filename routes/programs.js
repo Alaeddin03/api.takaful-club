@@ -99,7 +99,7 @@ router.post('/:id/register', async function (req, res, next) {
   }
 
   try {
-    res.json(await programs.registerStudent(req.params.id, req.body.student.id, req.body.neighborhoodId));
+    res.json(await programsStudents.createProgramsStudent(req.params.id, req.body.student.id, req.body.neighborhoodId));
   } catch (err) {
     console.error(`Error while registering student for program`, err.message);
     next(err);
@@ -108,27 +108,33 @@ router.post('/:id/register', async function (req, res, next) {
 });
 
 
+async function getProgramsStudentsInfo(studentsToRetrieve) {
+  let studentInfo = []
+
+  for await (const student of studentsToRetrieve) {
+    try {
+      studentInfo.push(await students.getStudentById(student.studentId))
+    } catch (err) {
+      console.error(`Error while getting student`, err.message);
+      next(err);
+    }
+  }
+
+  return studentInfo;
+}
+
 // get students in a program
 router.post('/:id/students', async function (req, res, next) {
 
-  let students = []
+  let studentsToRetrieve = []
   try {
-    students = (await programsStudents.getProgramsStudents(`programId = ${req.params.id}`));
-    console.log('students', students)
+    studentsToRetrieve = await programsStudents.getProgramsStudents(`programId = ${req.params.id}`);
   } catch (err) {
     console.error(`Error while getting students in program`, err.message);
     next(err);
   }
 
-  let studentData = []
-  students.forEach(async (student) => {
-    try {
-      studentData.push(await students.getStudentById(student.studentId))
-    } catch (err) {
-      console.error(`Error while getting student`, err.message);
-      next(err);
-    }
-  })
+  const studentData = await getProgramsStudentsInfo(studentsToRetrieve.students)
 
   res.json(studentData)
 

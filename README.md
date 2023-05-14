@@ -16,8 +16,8 @@ https://blog.logrocket.com/build-rest-api-node-express-mysql/
 - [x] create program
 - [x] edit ..
 - [x] delete ..
-- [ ] get student in a program
-- [ ] assign driver to program and neighborhood
+- [x] get student in a program
+- [x] assign driver to program and neighborhood
 - [x] student register in a program
 - [x] get all neighborhoods
 - [x] create neighborhood
