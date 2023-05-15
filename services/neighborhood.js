@@ -13,6 +13,18 @@ async function getNeighborhoods() {
     }
 }
 
+
+async function getNeighborhoodById(id) {
+    const rows = await db.query(
+        `SELECT name
+        FROM neighborhood
+        WHERE id = ${id}`
+    );
+    const neighborhood = helper.emptyOrRows(rows);
+    return neighborhood;
+}
+
+
 async function createNeighborhood(neighborhood) {
 
     const result = await db.query(
@@ -52,6 +64,7 @@ async function deleteNeighborhood(id) {
 
 module.exports = {
     getNeighborhoods,
+    getNeighborhoodById,
     createNeighborhood,
     deleteNeighborhood
 }

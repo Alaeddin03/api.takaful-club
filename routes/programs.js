@@ -3,6 +3,7 @@ const router = express.Router();
 const programs = require('../services/programs');
 const students = require('../services/students');
 const programsStudents = require('../services/programsStudents');
+const { isAuthorized } = require('../helper');
 
 
 /* GET all programs. */
@@ -43,6 +44,11 @@ router.get('/:id', async (req, res, next) => {
 
 // POST (create) program
 router.post('/', async function (req, res, next) {
+
+  if (!isAuthorized(req.body.role, ['admin'])) {
+    return res.status(403).json({ error: "Unauthorized" });
+  }
+
   try {
     res.json(await programs.createProgram(req.body.program));
   } catch (err) {
@@ -54,6 +60,11 @@ router.post('/', async function (req, res, next) {
 
 // PUT (edit) program
 router.put('/:id', async function (req, res, next) {
+
+  if (!isAuthorized(req.body.role, ['admin'])) {
+    return res.status(403).json({ error: "Unauthorized" });
+  }
+
   try {
     res.json(await programs.editProgram(req.params.id, req.body.program));
   } catch (err) {
@@ -65,6 +76,10 @@ router.put('/:id', async function (req, res, next) {
 
 // DELETE program
 router.delete('/:id', async function (req, res, next) {
+
+  if (!isAuthorized(req.body.role, ['admin'])) {
+    return res.status(403).json({ error: "Unauthorized" });
+  }
 
   try {
     await programsStudents.deleteProgramStudentForProgram(req.params.id)
@@ -79,12 +94,13 @@ router.delete('/:id', async function (req, res, next) {
     console.error(`Error while deletinging program`, err.message);
     next(err);
   }
-  
+
 });
 
 
 // register student for program
 router.post('/:id/register', async function (req, res, next) {
+
   try {
     await students.createStudent(req.body.student);
   } catch (err) {
@@ -113,7 +129,9 @@ async function getProgramsStudentsInfo(studentsToRetrieve) {
 
   for await (const student of studentsToRetrieve) {
     try {
-      studentInfo.push(await students.getStudentById(student.studentId))
+      const temp = await students.getStudentById(student.studentId)
+      console.log(temp.student[0])
+      studentInfo.push(temp.student[0])
     } catch (err) {
       console.error(`Error while getting student`, err.message);
       next(err);
@@ -126,6 +144,10 @@ async function getProgramsStudentsInfo(studentsToRetrieve) {
 // get students in a program
 router.post('/:id/students', async function (req, res, next) {
 
+  if (!isAuthorized(req.body.role, ['admin'])) {
+    return res.status(403).json({ error: "Unauthorized" });
+  }
+
   let studentsToRetrieve = []
   try {
     studentsToRetrieve = await programsStudents.getProgramsStudents(`programId = ${req.params.id}`);
@@ -136,7 +158,8 @@ router.post('/:id/students', async function (req, res, next) {
 
   const studentData = await getProgramsStudentsInfo(studentsToRetrieve.students)
 
-  res.json(studentData)
+
+  res.json({ students: studentData })
 
 });
 

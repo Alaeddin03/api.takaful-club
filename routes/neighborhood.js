@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const neighborhood = require('../services/neighborhood');
+const { isAuthorized } = require('../helper');
 
 /* GET all programs. */
 router.get('/', async function (req, res, next) {
@@ -15,6 +16,11 @@ router.get('/', async function (req, res, next) {
 
 // POST (create) Neighborhood
 router.post('/', async function (req, res, next) {
+
+    if (!isAuthorized(req.body.role, ['admin'])) {
+        return res.status(403).json({ error: "Unauthorized" });
+    }
+
     try {
         res.json(await neighborhood.createNeighborhood(req.body.neighborhood));
     } catch (err) {
@@ -26,6 +32,11 @@ router.post('/', async function (req, res, next) {
 
 // DELETE Neighborhood
 router.delete('/:id', async function (req, res, next) {
+
+    if (!isAuthorized(req.body.role, ['admin'])) {
+        return res.status(403).json({ error: "Unauthorized" });
+    }
+
     try {
         res.json(await neighborhood.deleteNeighborhood(req.params.id));
     } catch (err) {

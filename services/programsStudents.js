@@ -2,6 +2,7 @@ const db = require('./db');
 const helper = require('../helper');
 
 async function getProgramsStudents(condition) {
+    console.log('condition', condition)
     const whereString = condition ? `WHERE ${condition}` : '';
     const rows = await db.query(
         `SELECT *

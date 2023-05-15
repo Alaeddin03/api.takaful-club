@@ -3,12 +3,14 @@ const router = express.Router();
 const drivers = require('../services/drivers');
 const programsStudents = require('../services/programsStudents');
 const students = require('../services/students');
+const neighborhood = require('../services/neighborhood');
+const { isAuthorized } = require('../helper');
 
 
 // GET all drivers
 router.get('/', async function (req, res, next) {
     try {
-        res.json(await drivers.getDrivers());
+        res.json(await drivers.getDrivers({ condition: ''}));
     } catch (err) {
         console.error(`Error while getting all drivers `, err.message);
         next(err);
@@ -18,6 +20,11 @@ router.get('/', async function (req, res, next) {
 
 // POST (create) driver
 router.post('/', async function (req, res, next) {
+
+    if (!isAuthorized(req.body.role, ['admin'])) {
+        return res.status(403).json({ error: "Unauthorized" });
+    }
+
     try {
         res.json(await drivers.createDriver(req.body.driver));
     } catch (err) {
@@ -29,6 +36,11 @@ router.post('/', async function (req, res, next) {
 
 // PUT (edit) driver
 router.put('/:id', async function (req, res, next) {
+
+    if (!isAuthorized(req.body.role, ['admin'])) {
+        return res.status(403).json({ error: "Unauthorized" });
+    }
+
     try {
         res.json(await drivers.updateDriver(req.params.id, req.body.driver));
     } catch (err) {
@@ -40,6 +52,11 @@ router.put('/:id', async function (req, res, next) {
 
 // DELETE driver
 router.delete('/:id', async function (req, res, next) {
+
+    if (!isAuthorized(req.body.role, ['admin'])) {
+        return res.status(403).json({ error: "Unauthorized" });
+    }
+
     try {
         res.json(await drivers.deleteDriver(req.params.id));
     } catch (err) {
@@ -115,6 +132,10 @@ async function selectStudents(maleStudents, femaleStudents) {
 
 router.post('/:id/assign', async function (req, res, next) {
 
+    if (!isAuthorized(req.body.role, ['admin'])) {
+        return res.status(403).json({ error: "Unauthorized" });
+    }
+
     const driver = await getDriverToAssign(req.params.id);
 
     const driverStudents = await getDriverStudents(req.body.programId, req.body.neighborhoodId);
@@ -148,9 +169,15 @@ async function getStudentsInfo(studentsToRetrieve) {
 
     let studentInfo = []
 
+    if (!studentsToRetrieve) {
+        console.log('no students to retrieve (null)')
+        return studentInfo
+    }
+
     for await (const student of studentsToRetrieve) {
         try {
-            studentInfo.push(await students.getStudentById(student.studentId));
+            const temp = await students.getStudentById(student.studentId)
+            studentInfo.push(temp.student[0]);
         } catch (err) {
             console.error('Error while getting student info', err.message)
         }
@@ -163,9 +190,15 @@ async function getStudentsInfo(studentsToRetrieve) {
 // get students for a driver
 router.post('/:id/students', async function (req, res, next) {
 
+    if (!isAuthorized(req.body.role, ['admin', 'driver'])) {
+        return res.status(403).json({ error: "Unauthorized" });
+    }
+
     let studentsToRetrieve = []
+    let neighborhoods = []
     try {
-        studentsToRetrieve = (await programsStudents.getProgramsStudents(`driverId = ${req.params.id}`));
+        studentsToRetrieve = (await programsStudents.getProgramsStudents(`programId = ${req.body.programId} AND driverId = ${req.params.id}`));
+        neighborhoods.push(studentsToRetrieve.students[0].neighborhoodId)
     } catch (err) {
         console.error(`Error while getting students for a driver`, err.message);
         next(err);
@@ -173,7 +206,28 @@ router.post('/:id/students', async function (req, res, next) {
 
     const studentData = await getStudentsInfo(studentsToRetrieve.students)
 
-    res.json(studentData)
+    if (studentData.length === 0) {
+        res.json({ message: 'No students assigned to this driver' })
+    } else {
+        console.log('studentData', studentData)
+
+        let neighborhoodsNames = []
+
+        for await (const neighborhoodId of neighborhoods) {
+            try {
+                const neighborhoodName = await neighborhood.getNeighborhoodById(neighborhoodId)
+                neighborhoodsNames.push(neighborhoodName)
+            } catch (err) {
+                console.error('Error while getting neighborhood name', err.message)
+            }
+        }
+    
+        res.json({
+            students: studentData, 
+            neighborhoods: neighborhoodsNames[0]
+        })
+    }
+
 
 });
 

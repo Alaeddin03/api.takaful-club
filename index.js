@@ -1,5 +1,5 @@
 const express = require("express");
-const  cors = require('cors');
+const cors = require('cors');
 const fileUpload = require('express-fileupload');
 const app = express();
 const port = 8000;
@@ -7,6 +7,7 @@ const programsRouter = require("./routes/programs");
 const driversRouter = require("./routes/drivers");
 const loginRouter = require("./routes/login");
 const neighborhoodRouter = require("./routes/neighborhood");
+const { isAuthorized } = require("./helper");
 
 
 var corsOptions = {
@@ -49,15 +50,16 @@ app.post('/upload', (req, res) => {
   }
 
   const file = req.files.file;
+  console.log(file);
 
-  file.mv(`${__dirname}/public/static/${file.name}`, function(err) {
+  file.mv(`${__dirname}/public/static/${file.name}`, function (err) {
     if (err) {
       console.error(err);
       return res.status(500).send(err);
     }
   });
 
-  res.json({file: `public/static/${file.name}`});
+  res.json({ file: `public/static/${file.name}` });
 
 });
 

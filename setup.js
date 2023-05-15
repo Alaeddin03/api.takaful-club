@@ -33,7 +33,7 @@ const connection = mysql.createConnection({
 //   phone VARCHAR(10) NOT NULL,
 //   busNumber VARCHAR(5) NOT NULL,
 //   busLimit INT NOT NULL,
-//   username VARCHAR(20) NOT NULL,
+//   username VARCHAR(20) NOT NULL UNIQUE,
 //   password VARCHAR(72) NOT NULL
 //   )`;
 //   connection.query(sql, (err, result) => {
@@ -86,7 +86,7 @@ const connection = mysql.createConnection({
 //   if (err) throw err;
 //   console.log('Connected!');
 //   var sql = `CREATE TABLE neighborhood (
-//     id INT PRIMARY KEY,
+//     id INT AUTO_INCREMENT PRIMARY KEY,
 //     name VARCHAR(50) NOT NULL,
 //     sequence INT NOT NULL
 //      )`;
