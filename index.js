@@ -7,7 +7,6 @@ const programsRouter = require("./routes/programs");
 const driversRouter = require("./routes/drivers");
 const loginRouter = require("./routes/login");
 const neighborhoodRouter = require("./routes/neighborhood");
-const { isAuthorized } = require("./helper");
 
 
 var corsOptions = {
