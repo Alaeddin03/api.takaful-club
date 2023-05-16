@@ -5,7 +5,7 @@ const dbConfig = {
   db: {
     host: "localhost",
     user: "root",
-    password: "Alaad003",
+    password: "",
     database: "takaful",
   }
 };
