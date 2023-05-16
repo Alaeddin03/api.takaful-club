@@ -10,7 +10,7 @@ After cloning the repo, type the following commands in the terminal:
 npm install
 npm run start
 ```
-Whenever you need to run it again (other than the first time), just tyoe `npm install`.
+Whenever you need to run it again (other than the first time), just tyoe `npm run start`.
 
 The front end is found [here](https://github.com/Alaeddin03/project.web).
 
