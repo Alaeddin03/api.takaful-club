@@ -28,7 +28,7 @@ async function getNeighborhoodById(id) {
 async function createNeighborhood(neighborhood) {
 
     const result = await db.query(
-        `INSERT INTO neighborhood (id, name, sequence)
+        `INSERT INTO neighborhood (name, sequence)
         VALUES (?, ?)`,
         [
             neighborhood.name,
